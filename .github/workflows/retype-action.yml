@@ -10,8 +10,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build Retype site (to .retype)
-        run: npx retype build --output .retype
+      - uses: retypeapp/action-build@latest
+        with:
+          output: .retype
 
       - name: Show root dir
         run: ls -la
