@@ -115,3 +115,6 @@ footer:
     - text: License
       link: license.md
       icon: shield-check
+
+site:
+  robots: false
