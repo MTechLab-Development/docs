@@ -1,4 +1,4 @@
-name: Publish Retype powered website to GitHub Pages
+name: Publish Retype powered website to FTP
 on:
   workflow_dispatch:
   push:
@@ -7,20 +7,26 @@ on:
 
 jobs:
   publish:
-    name: Publish to retype branch
+    name: Publish to FTP host
 
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: retypeapp/action-build@next
-        env:
-          RETYPE_KEY: ${{ secrets.RETYPE_KEY }}
-          RETYPE_PASSWORD: ${{ secrets.RETYPE_PASSWORD }} # The password is: test
+      - uses: retypeapp/action-build@latest
 
-      - uses: retypeapp/action-github-pages@latest
+      - uses: retypeapp/action-git-ftp@latest
         with:
+          ftp-host: ${{ secrets.FTP_SERVER_ADDRESS }}
+          ftp-root: public_html
+          ftp-user: ${{ secrets.FTP_USERNAME }}
+          ftp-pass: ${{ secrets.FTP_PASSWORD }}
           update-branch: true
+
+      - name: Sync all via rsync
+        run: |
+          sshpass -p "${{ secrets.SFTP_PASSWORD }}" rsync -av --delete --omit-dir-times --no-perms \
+            -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.SFTP_PORT }}" \
+            ./src/client/files/ \
+            "${{ secrets.SFTP_USER }}@${{ secrets.SFTP_HOST }}:${{ secrets.SFTP_FOLDER }}" &
