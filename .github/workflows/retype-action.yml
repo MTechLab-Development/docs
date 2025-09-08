@@ -15,6 +15,10 @@ jobs:
       - name: Build Retype site
         run: retype build --output .retype
 
+      - name: Override robots.txt
+        run: |
+          cp ./static/robots.txt ./.retype/robots.txt
+
       - name: Sync all via rsync
         run: |
           sshpass -p "${{ secrets.SFTP_PASSWORD }}" rsync -av --delete --omit-dir-times --no-perms \
