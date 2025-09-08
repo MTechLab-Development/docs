@@ -5,24 +5,22 @@ on:
 
 jobs:
   publish:
-    name: Publish to SFTP host
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - uses: retypeapp/action-build@latest
-        with:
-          output: .retype
+      - name: Install Retype
+        run: npm install --global retypeapp
 
-      - name: Show root dir
-        run: ls -la
+      - name: Build Retype site
+        run: retype build --output .retype
 
       - name: Show build output
-        run: ls -la .retype || ls -la retype || echo "нет .retype и retype"
+        run: ls -la .retype
 
       - name: Sync all via rsync
         run: |
           sshpass -p "${{ secrets.SFTP_PASSWORD }}" rsync -av --delete --omit-dir-times --no-perms \
             -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.SFTP_PORT }}" \
-            ./retype/ \
+            ./.retype/ \
             "${{ secrets.SFTP_USER }}@${{ secrets.SFTP_HOST }}:${{ secrets.SFTP_FOLDER }}"
