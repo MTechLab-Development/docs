@@ -40,6 +40,24 @@ icon: desktop-download
 ### Использование
 !!!
 Тыкаем предметом "Админский предмет" `kubejs:admin_item`
-![img_2.png](img_2.png) ![img_3.png](img_3.png)
+![img_2.png](img_2.png) ![img_8.png](img_8.png)
+!!!
+> На выходе получаем json крафта, который используем в `event.custom`
+
+---
+## Агломерационная плита
+
+### Настройка сундука
+!!!
+Юзается обсидиановый сундук `ironchest:obsidian_chest`, **названный на наковальне как `terra_plate`**
+![img_7.png](img_7.png)
+!!!
+### Слоты в сундуке ![img_6.png](img_6.png)
+---
+
+### Использование
+!!!
+Тыкаем предметом "Админский предмет" `kubejs:admin_item`
+![img_2.png](img_2.png) ![img_9.png](img_9.png)
 !!!
 > На выходе получаем json крафта, который используем в `event.custom`
