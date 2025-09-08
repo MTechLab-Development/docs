@@ -16,14 +16,6 @@ jobs:
 
       - uses: retypeapp/action-build@latest
 
-      - uses: retypeapp/action-git-ftp@latest
-        with:
-          ftp-host: ${{ secrets.FTP_SERVER_ADDRESS }}
-          ftp-root: public_html
-          ftp-user: ${{ secrets.FTP_USERNAME }}
-          ftp-pass: ${{ secrets.FTP_PASSWORD }}
-          update-branch: true
-
       - name: Sync all via rsync
         run: |
           sshpass -p "${{ secrets.SFTP_PASSWORD }}" rsync -av --delete --omit-dir-times --no-perms \
