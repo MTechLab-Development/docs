@@ -1,5 +1,5 @@
 ---
-label: "Home"
+label: "Docs for docs"
 icon: home
 backlinks:
   enabled: false
