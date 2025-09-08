@@ -1,13 +1,12 @@
-name: Publish Retype powered website to FTP
+name: Publish to SFTP host
 on:
-  workflow_dispatch:
   push:
     branches:
       - main
 
 jobs:
   publish:
-    name: Publish to FTP host
+    name: Publish to SFTP host
 
     runs-on: ubuntu-latest
 
@@ -20,5 +19,5 @@ jobs:
         run: |
           sshpass -p "${{ secrets.SFTP_PASSWORD }}" rsync -av --delete --omit-dir-times --no-perms \
             -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.SFTP_PORT }}" \
-            ./ \
+            ./.retype/ \
             "${{ secrets.SFTP_USER }}@${{ secrets.SFTP_HOST }}:${{ secrets.SFTP_FOLDER }}" &
