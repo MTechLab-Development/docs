@@ -1,23 +1,26 @@
 name: Publish to SFTP host
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   publish:
     name: Publish to SFTP host
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
       - uses: retypeapp/action-build@latest
+        
+      - name: Show root dir
+        run: ls -la
+
+      - name: Show build output
+        run: ls -la .retype || ls -la retype || echo "нет .retype и retype"
 
       - name: Sync all via rsync
         run: |
           sshpass -p "${{ secrets.SFTP_PASSWORD }}" rsync -av --delete --omit-dir-times --no-perms \
             -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.SFTP_PORT }}" \
-            ./.retype/ \
-            "${{ secrets.SFTP_USER }}@${{ secrets.SFTP_HOST }}:${{ secrets.SFTP_FOLDER }}" &
+            ./retype/ \
+            "${{ secrets.SFTP_USER }}@${{ secrets.SFTP_HOST }}:${{ secrets.SFTP_FOLDER }}"
